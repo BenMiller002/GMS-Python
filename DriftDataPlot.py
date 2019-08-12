@@ -1,5 +1,4 @@
 import numpy as np
-from numpy import linalg as LA
 import sys
 sys.argv.extend(['-a', ' '])
 import matplotlib.pyplot as plt
@@ -10,7 +9,7 @@ def plot2centered(data,title):
 	ax.axhline(0,color='0.75')
 	ax.plot(data[1,:],data[0,:])
 	ax.axis('scaled')
-	limit = 1.1*max(LA.norm(data,axis=0))
+	limit = 1.1*max(np.linalg.norm(data,axis=0))
 	ax.axis([-limit, limit, -limit, limit])
 	plt.xlabel('Drift (nm)',fontsize=14)
 	plt.ylabel('Drift (nm)',fontsize=14)
