@@ -10,6 +10,9 @@ import scipy
 from scipy.optimize import curve_fit
 import scipy.signal as ss
 import scipy.ndimage.filters as sf
+import sys
+sys.argv.extend(['-a', ' '])
+import matplotlib.pyplot as plt
 
 #User Input Section XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 #Accepted FunTypes: 'Poly1' 'Poly3' 'Poly5' 'FilterSG'
@@ -18,13 +21,13 @@ import scipy.ndimage.filters as sf
 #FilterSG is a Savitzky-Golay Filter
 #FilterMed is a median filter
 #FilterSmooth is a Gaussian Smoothing (lowpass) filter
-
+plot_external = 1
 FunType = 'FilterSG'
 
 #Set breakpoints (as a list in brackets) 
 # this will filter sections independently
 #set breakpoint to just before any sudden (real) jump
-bp = [1331]
+bp = []
 
 #Set Filtering Parameters
 #filterwindow=1 means window extends 1 pixel on either side: len(window)=3
@@ -40,7 +43,7 @@ gauss_sigma = 2
 Im0 = DM.GetFrontImage()
 name0 = Im0.GetName()
 img0_array = Im0.GetNumArray()
-
+del Im0
 #Create new array
 img_array = np.copy(img0_array)
 num_curves, sizex = img_array.shape
@@ -63,8 +66,9 @@ if FunType.find('Filter')>=0:
 else:
 	#For each breakpoint, fit the data leading up to that breakpoint
 	#Add start and end as breakpoints
-	bp.insert(0,0)
 	bp.append(sizex)
+	bp.insert(0,0)
+	
 	for i, point in enumerate(bp):
 		#Skip First breakpoint, which is 0
 		if i==0:
@@ -89,12 +93,38 @@ else:
 			popt, pcov = curve_fit(Fun,xdata[bp0:bp1],img_array[j,bp0:bp1])
 			img_array[j,bp0:bp1]=Fun(xdata[bp0:bp1],*popt)
 			j+=1	
+
+
+def plot2centered(ax,data,title,label):
+	
+	#plot center-lines and data
+	ax.axvline(0,color='0.75')
+	ax.axhline(0,color='0.75')
+	ax.plot(data[0,:],data[1,:], label=label)
+	#adjust axes
+	limit = 1.1*max(np.linalg.norm(data,axis=0))
+	ax.axis('scaled')
+	ax.axis([-limit, limit, -limit, limit])
+	#add labels
+	plt.xlabel('Drift (nm)',fontsize=14)
+	plt.ylabel('Drift (nm)',fontsize=14)
+	plt.title(title,fontsize=12)
+	#display finished plot
+	
 #Create new image and display it as a lineplot
 imageDoc = DM.NewImageDocument("")
 img1 = DM.CreateImage(img_array)
-img1.SetName(name0+" Fit Using: "+FunType)
+newname = (name0+" Fit Using: "+FunType)
+img1.SetName(newname)
 imgdsp = imageDoc.AddImageDisplay(img1, 3)
 lpdsp=DM.GetLinePlotImageDisplay(imgdsp)
 lpdsp.SetSliceDrawingStyle(0, 1)
 imageDoc.Show()
+del img1
 
+if(plot_external):
+	fig, ax = plt.subplots()
+	plot2centered(ax,img_array,newname,"Fit Data")
+	plot2centered(ax,img0_array,newname,"Original Data")
+	ax.legend()
+	plt.show()
