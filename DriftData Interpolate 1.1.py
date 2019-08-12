@@ -4,7 +4,7 @@ from scipy.interpolate import interp1d
 
 #User Defined Parameters
 binning=1
-multiple=2
+multiple=4
 
 #Get data from front-most image
 image_0=DM.GetFrontImage()
