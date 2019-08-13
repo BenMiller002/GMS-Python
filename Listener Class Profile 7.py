@@ -57,7 +57,7 @@ class CListen(DM.Py_ScriptObject):
 	#Function to calculate radial profile of FFT from image
 	def FFT_radial_profile(self, image_o, profile_res):	
 		#compute FFT
-		fft_im = np.absolute(scipy.fftpack.fftshift(scipy.fftpack.fft2(image_o)))
+		fft_im = np.absolute(scipy.fftpack.fftshift(np.fft.fft2(image_o)))
 		#Median-Filter FFT to remove single-pixel outliers
 		#fft_im_median=scipy.ndimage.median_filter(fft_im, size=3)
 		fft_im_median=fft_im

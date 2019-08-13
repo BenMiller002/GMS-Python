@@ -51,7 +51,7 @@ def processimage(numpy_data, profile_res):
 	def FFT_radial_profile(image_o, profile_res):	
 		sizefraction=2
 		#compute FFT
-		fft_im = np.absolute(scipy.fftpack.fftshift(scipy.fftpack.fft2(image_o)))
+		fft_im = np.absolute(scipy.fftpack.fftshift(np.fft.fft2(image_o)))
 		#Median-Filter FFT to remove single-pixel outliers
 		#fft_im_median=scipy.ndimage.median_filter(fft_im, size=3)
 		fft_im_median=fft_im
