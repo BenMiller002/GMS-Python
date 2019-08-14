@@ -19,15 +19,15 @@ class CListen(DM.Py_ScriptObject):
 		self.imgref = img
 		#get the shape and calibration of the original image
 		(input_sizex, input_sizey) = img.GetNumArray()[0:2044,0:2044].shape
-		origin, self.scale, self.unit_stringo = self.imgref.GetDimensionCalibration(0, 0)
-		self.diff_scale=1/self.scale/input_sizex
-		self.unit_string=self.unit_stringo+"-1"
+#		origin, self.scale, self.unit_stringo = self.imgref.GetDimensionCalibration(0, 0)
+#		self.diff_scale=1/self.scale/input_sizex
+#		self.unit_string=self.unit_stringo+"-1"
 		r_img_size=int(input_sizex/self.sizefraction)
 		#create empty set for result images
 		self.result_images = {}
 		#create 1st result image and set calibration
 		self.result_images[self.name] = DM.CreateImage(np.copy(np.zeros((r_img_size,20))))
-		self.result_images[self.name].SetDimensionCalibration(1,0,self.diff_scale,self.unit_string,0)
+#		self.result_images[self.name].SetDimensionCalibration(1,0,self.diff_scale,self.unit_string,0)
 		self.result_images[self.name].ShowImage()		
 		#get numpy array from result image
 		self.result_array = self.result_images[self.name].GetNumArray()
@@ -94,7 +94,7 @@ class CListen(DM.Py_ScriptObject):
 					#create a new results image and calibrate it
 					self.name="Image{0}".format(self.i)
 					self.result_images[self.name] = DM.CreateImage(np.copy((self.result_array_temp)))
-					self.result_images[self.name].SetDimensionCalibration(1,0,self.diff_scale,self.unit_string,0)
+#					self.result_images[self.name].SetDimensionCalibration(1,0,self.diff_scale,self.unit_string,0)
 					print("ImageCreated")
 					#display new result image in DM
 					self.result_images[self.name].ShowImage()	

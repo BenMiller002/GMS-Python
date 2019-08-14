@@ -4,10 +4,10 @@ import os
 import sys
 import scipy
 import scipy.ndimage.filters as sfilt
-
+import time
 #User-Set Parameters
 SIGMA = 2 #Standard Deviation of Gaussian Blur
-
+BINNING = 2
 # Function to Specify Data Type
 def npDType(DM_type_num):
 	np_type="float32" #Default if type not in list below
@@ -37,18 +37,20 @@ for (dirpath, dirnames, filenames) in os.walk(dirname):
     listOfFiles += [os.path.join(dirpath, file) for file in filenames]
 
 # Function to Process the Image Data in Each Image 
-def processimage(numpy_data, sigma):
+def processimage(numpy_data, sigma, binning):
 	def bindata(img, binning):
 		shape=(img.shape[0]//binning,binning,img.shape[1]//binning,binning)
-		return img.reshape(shape).mean(-1).mean(1)
-	processed_data = bindata(sfilt.gaussian_filter(numpy_data, sigma),2)
+		return img.reshape(shape).mean(-1).mean(1)*binning**2
+	processed_data = bindata(sfilt.gaussian_filter(numpy_data, sigma),binning)
 	return processed_data
 
 #Get data type of original data
-middle_image = DM.OpenImage(listOfFiles[len(listOfFiles)//2])
+num_files=len(listOfFiles)
+middle_image = DM.OpenImage(listOfFiles[num_files//2])
 dtype=npDType(middle_image.GetDataType())
 print("Data Type= %s" % dtype)
 
+start=time.perf_counter()
 #Main loop over all image files
 i=0
 for file in listOfFiles:
@@ -56,14 +58,16 @@ for file in listOfFiles:
 	newfilename = file[:3] + 'DMScript Edited Datasets/' + file[3:]
 	newdirname = os.path.dirname(newfilename)
 	image = DM.OpenImage(file)
-	imagedata = image.GetNumArray()
-	processedimagedata = processimage(imagedata, SIGMA)
+	imagedata = image.GetNumArray().astype('float32')
+	processedimagedata = processimage(imagedata, SIGMA,BINNING)
 	if not os.path.exists(newdirname):
 		print("Dir Does Not Exist")
 		os.makedirs(newdirname)
-	newimage=DM.CreateImage(processedimagedata.astype(dtype))
+	newimage=DM.CreateImage(processedimagedata)
 	newimage.SaveAsGatan(newfilename)
 	DM.DeleteImage(newimage)
 	DM.DeleteImage(image)
 	print("Saved Image %s" % i)
 print("Processed Data Directory: %s" % newdir )
+end=time.perf_counter()
+print("\nParallel Processed "+str(num_files)+" Images: Processing Time= "+str(end-start))
