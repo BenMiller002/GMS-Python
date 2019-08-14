@@ -1,3 +1,6 @@
+#Script written by Ben Miller
+#Last Modified Aug 2019
+
 import time
 import os
 import sys
@@ -12,7 +15,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 SIGMA = 2 #Standard Deviation of Gaussian Blur (Set to 0 for no blurring)
 BINNING = 2 #Integer number of Pixels to Bin image by (Set to 1 for no binning)
 
-non_parallel_process_compare=1
+non_parallel_process_compare=0
 
 # Function to Specify Data Type
 def npDType(DM_type_num):

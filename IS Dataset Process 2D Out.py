@@ -1,3 +1,6 @@
+#Script written by Ben Miller
+#Last Modified Aug 2019
+
 import inspect
 import numpy as np
 import os

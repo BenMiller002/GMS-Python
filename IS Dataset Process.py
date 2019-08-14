@@ -1,3 +1,6 @@
+#Script written by Ben Miller
+#Last Modified Aug 2019
+
 import tkinter as tk
 import tkinter.filedialog as tkfd
 import os
@@ -96,7 +99,7 @@ for file in listOfFiles:
 	newimage.SaveAsGatan(newfilename)
 	DM.DeleteImage(newimage)
 	DM.DeleteImage(image)
-	if numfiles%1print("Saved Image %s" % i)
+	if(i%10==1 or num_files<20): print("Saved Image %s" % i)
 print("Processed Data Directory: %s" % newdir )
 end=time.perf_counter()
 print("\n Processed "+str(num_files)+" Images: Processing Time= "+str(end-start))
