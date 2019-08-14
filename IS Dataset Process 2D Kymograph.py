@@ -12,7 +12,7 @@ from scipy.ndimage.interpolation import geometric_transform
 import scipy.ndimage.filters as sfilt
 
 #User-Set Parameters
-Profile_Resolution = 200 
+Profile_Resolution = 20
 
 
 # Function to Specify Data Type
