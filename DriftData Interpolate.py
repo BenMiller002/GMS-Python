@@ -1,3 +1,13 @@
+#Script for interpolating drift measurement data
+# measured from stacks in GMS. 
+#This is useful for summing frames in a stack, then 
+# measuring the drift of the summed data, then interpolating
+# this measurement using this script and finally using 
+# the interpolated data to drift correct the original dataset
+
+#Script written by Ben Miller 
+#Last updated 2019-08
+
 import numpy as np
 import scipy
 from scipy.interpolate import interp1d

@@ -1,3 +1,5 @@
+#Must deselect "Execute on Background Thread" at botttom of GMS Script Window!
+
 #Script for Visualizing the Effect of Poisson Noise in Counted Images
 #Inputs are the mean # of electron counts per pixel per frame and the
 # number of such frames to be summed together
@@ -5,13 +7,11 @@
 #IMPORTANT!! This image should have as little noise as possible!
 
 #Script written by Ben Miller
-#Last Modified Sep 2018
+#Last Modified Aug 2019
 
 import numpy as np
-
 import sys
 sys.argv.extend(['-a', ' '])
-
 import matplotlib.pyplot as plt
 
 MEANeCOUNTS=5
