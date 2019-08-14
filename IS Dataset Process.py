@@ -5,6 +5,7 @@ import sys
 import scipy
 import scipy.ndimage.filters as sfilt
 import time
+import numpy as np
 #User-Set Parameters
 SIGMA = 2 #Standard Deviation of Gaussian Blur
 BINNING = 2
@@ -36,19 +37,47 @@ listOfFiles = list()
 for (dirpath, dirnames, filenames) in os.walk(dirname):
     listOfFiles += [os.path.join(dirpath, file) for file in filenames]
 
-# Function to Process the Image Data in Each Image 
-def processimage(numpy_data, sigma, binning):
-	def bindata(img, binning):
-		shape=(img.shape[0]//binning,binning,img.shape[1]//binning,binning)
-		return img.reshape(shape).mean(-1).mean(1)*binning**2
-	processed_data = bindata(sfilt.gaussian_filter(numpy_data, sigma),binning)
-	return processed_data
-
 #Get data type of original data
 num_files=len(listOfFiles)
 middle_image = DM.OpenImage(listOfFiles[num_files//2])
 dtype=npDType(middle_image.GetDataType())
 print("Data Type= %s" % dtype)
+
+# Function to Process the Image Data in Each Image 
+def processimage(numpy_data, sigma, binning):
+	#Binning Function
+	#If width or height are not integer multiple of binning value, 
+	#the first few rows/columns are deleted to make them integer multiples
+	def bindata(img, binning):
+		def simplebin(img,binning):
+			shape=(img.shape[0]//binning,binning,img.shape[1]//binning,binning)
+			return img.reshape(shape).mean(-1).mean(1)*binning**2
+			
+		if(binning==1):
+			return img
+		else:
+			remy = img.shape[0]%binning
+			remx = img.shape[1]%binning
+			if(remy+remx)==0:
+				return simplebin(img,binning)
+			elif(remy==0):
+				img=np.delete(img,list(range(remx)),1)
+				return simplebin(img,binning)
+			elif(remx==0):
+				img=np.delete(img,list(range(remy)),0)
+				return simplebin(img,binning)
+			else:
+				img=np.delete(img,list(range(remx)),1)
+				img=np.delete(img,list(range(remy)),0)
+				return simplebin(img,binning)
+	try:
+		if(sigma>0):
+			processed_data = bindata(sfilt.gaussian_filter(numpy_data, sigma),binning)
+		elif(sigma==0):
+			processed_data = bindata(numpy_data,binning)
+		return processed_data
+	except (RuntimeError, TypeError, NameError, ValueError):
+		print("processimage function Failed ")
 
 start=time.perf_counter()
 #Main loop over all image files
@@ -67,7 +96,7 @@ for file in listOfFiles:
 	newimage.SaveAsGatan(newfilename)
 	DM.DeleteImage(newimage)
 	DM.DeleteImage(image)
-	print("Saved Image %s" % i)
+	if numfiles%1print("Saved Image %s" % i)
 print("Processed Data Directory: %s" % newdir )
 end=time.perf_counter()
-print("\nParallel Processed "+str(num_files)+" Images: Processing Time= "+str(end-start))
+print("\n Processed "+str(num_files)+" Images: Processing Time= "+str(end-start))

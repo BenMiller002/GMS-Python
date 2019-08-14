@@ -14,6 +14,19 @@ import scipy.ndimage.filters as sfilt
 #User-Set Parameters
 Profile_Resolution = 200 
 
+
+# Function to Specify Data Type
+def npDType(DM_type_num):
+	np_type="float32" #Default if type not in list below
+	if DM_type_num==6: np_type="uint8"
+	if DM_type_num==10: np_type="uint16"
+	if DM_type_num==11: np_type="uint32"
+	if DM_type_num==2: np_type="float32"
+	if DM_type_num==12: np_type="float64"
+	if DM_type_num==3: np_type="complex64"
+	if DM_type_num==13: np_type="complex128"
+	return np_type
+	
 # Let User Select the IS Dataset Directory
 sys.argv.extend(['-a', ' '])
 root = tk.Tk()
@@ -89,8 +102,8 @@ for r in range(roi_num):
         roi = roi_disp.GetROI(0)
 roi_id = roi.GetID()
 #roi_comp = roi_disp.GetChildByID(roi_id)
-DM.ExecuteScriptString( text )
-print(roi.GetRect())
+#DM.ExecuteScriptString( text )
+#print(roi.GetRect())
 #top, left, bottom, right = roi_comp.GetRect()
 #print("Top"+str(top)+"Bottom"+str(bottom))
 

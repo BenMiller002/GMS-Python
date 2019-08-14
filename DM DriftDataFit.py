@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 #FilterMed is a median filter
 #FilterSmooth is a Gaussian Smoothing (lowpass) filter
 plot_external = 1
-FunType = 'FilterSG'
+FunType = 'FilterSmooth'
 
 #Set breakpoints (as a list in brackets) 
 # this will filter sections independently

@@ -12,6 +12,8 @@ from multiprocessing.dummy import Pool as ThreadPool
 SIGMA = 2 #Standard Deviation of Gaussian Blur (Set to 0 for no blurring)
 BINNING = 2 #Integer number of Pixels to Bin image by (Set to 1 for no binning)
 
+non_parallel_process_compare=1
+
 # Function to Specify Data Type
 def npDType(DM_type_num):
 	np_type="float32" #Default if type not in list below
@@ -108,11 +110,11 @@ pool.join()
 end1=time.perf_counter()
 
 print("done")
-
-start2=time.perf_counter()
-for i in range(num_files):
-	process_file(listOfFiles[i])
-end2=time.perf_counter()
-print("\nStandard Processed "+str(num_files)+" Images: Processing Time= "+str(end2-start2))
+if(non_parallel_process_compare):
+	start2=time.perf_counter()
+	for i in range(num_files):
+		process_file(listOfFiles[i])
+	end2=time.perf_counter()
+	print("\nStandard Processed "+str(num_files)+" Images: Processing Time= "+str(end2-start2))
 print("\nParallel Processed "+str(num_files)+" Images: Processing Time= "+str(end1-start1))
 print(str(threads)+" Threads Used")
