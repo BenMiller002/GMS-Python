@@ -65,6 +65,8 @@ if (size_x_out <= sx) & (size_y_out <= sy):
 	im_cropped = DM.CreateImage(im_cropped_data)
 	#Copy calibrations and tags to the cropped image
 	Calibration_and_Tag_Copy(image, im_cropped)
+	#Set Cropped Image Name Based on Original
+	im_cropped.SetName("Cropped "+image.GetName())
 	#Display cropped image
 	im_cropped.ShowImage()
 else: print("Cropped size is larger than original image")
