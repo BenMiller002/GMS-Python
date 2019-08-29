@@ -28,10 +28,10 @@ img = DM.GetFrontImage()
 img_data = img.GetNumArray()
 
 #Get image dimensions
-w=img_data.shape[1]
-h=img_data.shape[0]
+w = img_data.shape[1]
+h = img_data.shape[0]
 min_dim = min(w,h)
-rad=RADIUS_FRACTION*min_dim/2
+rad = RADIUS_FRACTION*min_dim/2
 
 #Create mask based on image mean
 mask_data = create_circular_mask(h, w, center=CENTER, radius=rad)
@@ -42,7 +42,7 @@ mask_img.SetName("Binary mask for " + img.GetName())
 mask_img.ShowImage()
 
 #Create, Name, and Display masked image
-img_masked=DM.CreateImage(np.where(mask_data, img_data, 0))
+img_masked = DM.CreateImage(np.where(mask_data, img_data, 0))
 img_masked.SetName(img.GetName() + " masked")
 img_masked.ShowImage()
 

@@ -1,3 +1,4 @@
+#Demonstration of Getting Image by Specifying its Letter Designation
 #specify the image letter
 image_letter = "A"
 

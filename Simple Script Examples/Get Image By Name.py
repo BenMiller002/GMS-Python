@@ -1,3 +1,5 @@
+#Demonstration of Getting Image by its Name
+
 #specify the image name
 image_name = "untitled"
 

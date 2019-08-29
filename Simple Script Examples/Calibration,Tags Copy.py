@@ -1,4 +1,4 @@
-#Script to Copy Image Calibrations and Tags from one image to another
+#Copy Image Calibrations and Tags from One Image to Another
 def Calibration_and_Tag_Copy(image_source, image_dest):
 	#Count and check that number of dimensions match
 	num_dim_s = image_source.GetNumDimensions()

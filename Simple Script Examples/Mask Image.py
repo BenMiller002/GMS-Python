@@ -14,7 +14,7 @@ mask_img.SetName("Binary mask for " + img.GetName())
 mask_img.ShowImage()
 
 #Create, Name, and Display masked image
-img_masked=DM.CreateImage(np.where(mask_data, img_data, 0))
+img_masked = DM.CreateImage(np.where(mask_data, img_data, 0))
 img_masked.SetName(img.GetName() + " masked")
 img_masked.ShowImage()
 

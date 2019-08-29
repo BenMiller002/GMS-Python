@@ -1,4 +1,10 @@
+#Crop Center of Image to Specified Size
 import numpy as np
+
+#Specify Final Image Size
+size_x_out = 512
+size_y_out = 780
+
 
 #Function to Copy calibrations and tags from one image to another
 def Calibration_and_Tag_Copy(image_source, image_dest):
@@ -35,7 +41,6 @@ def Calibration_and_Tag_Copy(image_source, image_dest):
 	tg_dest.SetTagAsTagGroup("Copied Tags",tg_source.Clone())
 	
 
-
 #Find the front image, and get the image data as numpy array
 image = DM.GetFrontImage()
 image_data = image.GetNumArray()
@@ -43,11 +48,11 @@ image_data = image.GetNumArray()
 #Get input image sixe and center
 sx,sy = image_data.shape
 center_x = sx//2
-center_y =sy//2
+center_y = sy//2
 
-#Set Final Image size
-size_x_out = 512
-size_y_out = 780
+#Print info to Output Window
+print("Current Image is %s x %s pixels" %(sx,sy))
+print("Cropped Image is %s x %s pixels" %(size_x_out,size_y_out))
 
 #Check sizes
 if (size_x_out <= sx) & (size_y_out <= sy):

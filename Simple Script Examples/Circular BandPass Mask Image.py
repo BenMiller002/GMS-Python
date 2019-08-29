@@ -10,7 +10,7 @@ CENTER = None
 #CENTER = (300,800)
 
 #Check that inner radius is smaller than outer radius
-if(OUTER_RADIUS_FRACTION<=INNER_RADIUS_FRACTION):
+if(OUTER_RADIUS_FRACTION <= INNER_RADIUS_FRACTION):
 	try:
 		Ex = ValueError()
 		Ex.strerror = 'Inner Radius Must Be Smaller Than Outer Radius'

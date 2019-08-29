@@ -1,3 +1,5 @@
+#Demonstration of Getting an Image by Specifying its ID
+
 #First get the ID of the front image (to get an ID guaranteed to be valid)
 front_image_ID = DM.GetFrontImage().GetID()
 

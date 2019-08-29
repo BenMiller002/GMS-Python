@@ -1,3 +1,5 @@
+#Demonstration of Getting Data from the Front-Most Image in GMS
+
 #Find the front image, and get the image data as numpy array
 image = DM.GetFrontImage()
 image_data = image.GetNumArray()
