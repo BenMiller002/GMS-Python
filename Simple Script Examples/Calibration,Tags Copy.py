@@ -1,6 +1,4 @@
-import numpy as np
-
-#Function to Copy calibrations and tags from one image to another
+#Script to Copy Image Calibrations and Tags from one image to another
 def Calibration_and_Tag_Copy(image_source, image_dest):
 	#Count and check that number of dimensions match
 	num_dim_s = image_source.GetNumDimensions()
@@ -34,34 +32,11 @@ def Calibration_and_Tag_Copy(image_source, image_dest):
 	tg_dest = image_dest.GetTagGroup()
 	tg_dest.SetTagAsTagGroup("Copied Tags",tg_source.Clone())
 	
+#Get Front 2 Images
+image_source = DM.GetFrontImage()
+image_dest = image_source.FindNextImage()
 
+#Call the function to copy everything
+Calibration_and_Tag_Copy(image_source, image_dest)
 
-#Find the front image, and get the image data as numpy array
-image = DM.GetFrontImage()
-image_data = image.GetNumArray()
-
-#Get input image sixe and center
-sx,sy = image_data.shape
-center_x = sx//2
-center_y =sy//2
-
-#Set Final Image size
-size_x_out = 512
-size_y_out = 780
-
-#Check sizes
-if (size_x_out <= sx) & (size_y_out <= sy):
-	#Get top-left corner coordinates
-	x_min = center_x-size_x_out//2
-	y_min = center_y-size_y_out//2
-	#Get cropped image data
-	im_cropped_data = np.copy(image_data[y_min:y_min+size_y_out,x_min:x_min+size_x_out])
-	#Create new image from numpy array
-	im_cropped = DM.CreateImage(im_cropped_data)
-	#Copy calibrations and tags to the cropped image
-	Calibration_and_Tag_Copy(image, im_cropped)
-	#Display cropped image
-	im_cropped.ShowImage()
-else: print("Cropped size is larger than original image")
-	
-
+print("Calibrations and Tags Copied")
