@@ -13,9 +13,12 @@ import scipy
 from scipy.interpolate import interp1d
 
 #User Defined Parameters
-binning=1
-multiple=4
+binning = 1
+numpointsnew = 4633 
 
+
+bval, numpointsnew = DM.GetNumber('Number of Output Points', numpointsnew)
+numpointsnew=int(numpointsnew)
 #Get data from front-most image
 image_0=DM.GetFrontImage()
 im_name=image_0.GetName()
@@ -23,7 +26,6 @@ array=image_0.GetNumArray()
 
 #Get Number of points
 numsig, numpoints = array.shape
-numpointsnew=numpoints*multiple
 
 #Get Data as vectors
 array=image_0.GetNumArray()*binning
