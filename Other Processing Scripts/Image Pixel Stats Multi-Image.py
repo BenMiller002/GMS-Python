@@ -16,10 +16,10 @@ def GetK3TagDataAsString(image):
 	size=(area[2]-area[0],area[3]-area[1])
 	bval, processing = tg.GetTagAsString( "Acquisition:Parameters:High Level:Processing")
 	bval, binning = tg.GetTagAsString( "Acquisition:Parameters:High Level:Binning")
-	bval, exp_time = tg.GetTagAsUInt32( "Acquisition:Parameters:High Level:Exposure (s)")
+	bval, exp_time = tg.GetTagAsFloat( "Acquisition:Parameters:High Level:Exposure (s)")
 	bval, read_mode = tg.GetTagAsUInt32( "Acquisition:Parameters:High Level:Read Mode")
 	read_modes = ['Non-CDS Linear', 'Non-CDS Counting','CDS Linear','CDS Counting']
-	info_str = str(read_modes[read_mode])+", "+processing+", "+str(exp_time)+"s exp, \nSize: "+str(size)+", Binning: "+binning
+	info_str = str(read_modes[read_mode])+", "+processing+", "+str(round(exp_time,1))+"s exp, \nSize: "+str(size)+", Binning: "+binning
 	return(info_str)
 
 
